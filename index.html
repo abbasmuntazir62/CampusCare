@@ -1,0 +1,516 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>CampusCare – I.T.S Engineering College</title>
+  <link rel="stylesheet" href="style.css"/>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+  <style>
+    /* ── Hero ── */
+    .hero {
+      min-height: 100vh;
+      background: linear-gradient(135deg, var(--blue-900) 0%, var(--blue-800) 45%, var(--blue-700) 100%);
+      display: flex;
+      align-items: center;
+      position: relative;
+      overflow: hidden;
+      padding: 100px 0 80px;
+    }
+    .hero::before {
+      content: '';
+      position: absolute;
+      width: 700px; height: 700px;
+      background: radial-gradient(circle, rgba(37,99,235,.18) 0%, transparent 70%);
+      top: -100px; right: -200px;
+      border-radius: 50%;
+    }
+    .hero::after {
+      content: '';
+      position: absolute;
+      width: 400px; height: 400px;
+      background: radial-gradient(circle, rgba(59,130,246,.12) 0%, transparent 70%);
+      bottom: -50px; left: -100px;
+      border-radius: 50%;
+    }
+    .hero-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 64px;
+      align-items: center;
+      position: relative;
+      z-index: 1;
+    }
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: rgba(59,130,246,.15);
+      border: 1px solid rgba(59,130,246,.3);
+      color: var(--blue-300);
+      padding: 7px 16px;
+      border-radius: 20px;
+      font-size: .8rem;
+      font-weight: 600;
+      letter-spacing: .5px;
+      margin-bottom: 20px;
+    }
+    .hero-badge i { font-size: .75rem; color: var(--accent); }
+    .hero-title {
+      font-family: 'Syne', sans-serif;
+      font-size: clamp(2.2rem, 5vw, 3.6rem);
+      font-weight: 800;
+      color: #fff;
+      line-height: 1.1;
+      letter-spacing: -1px;
+      margin-bottom: 24px;
+    }
+    .hero-title .highlight {
+      background: linear-gradient(135deg, var(--blue-400), var(--blue-300));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    .hero-subtitle {
+      font-size: 1.05rem;
+      color: rgba(255,255,255,.65);
+      line-height: 1.75;
+      margin-bottom: 36px;
+      max-width: 480px;
+    }
+    .hero-actions { display: flex; align-items: center; gap: 14px; flex-wrap: wrap; }
+    .hero-stats {
+      display: flex;
+      align-items: center;
+      gap: 28px;
+      margin-top: 44px;
+      padding-top: 32px;
+      border-top: 1px solid rgba(255,255,255,.1);
+    }
+    .hero-stat-item .value { font-family: 'Syne', sans-serif; font-size: 1.6rem; font-weight: 800; color: #fff; }
+    .hero-stat-item .label { font-size: .78rem; color: rgba(255,255,255,.5); margin-top: 2px; }
+    .hero-stat-sep { width: 1px; height: 40px; background: rgba(255,255,255,.1); }
+
+    /* Hero Visual */
+    .hero-visual {
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+      animation: float 4s ease-in-out infinite;
+    }
+    .mock-card {
+      background: rgba(255,255,255,.06);
+      border: 1px solid rgba(255,255,255,.12);
+      border-radius: var(--radius-lg);
+      padding: 18px 20px;
+      backdrop-filter: blur(10px);
+    }
+    .mock-card-header { display: flex; align-items: center; gap: 10px; margin-bottom: 10px; }
+    .mock-icon { width: 36px; height: 36px; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: .9rem; }
+    .mock-card-title { color: #fff; font-weight: 700; font-size: .9rem; }
+    .mock-card-sub { color: rgba(255,255,255,.4); font-size: .75rem; }
+    .mock-progress-bar { height: 5px; background: rgba(255,255,255,.1); border-radius: 3px; overflow: hidden; margin-top: 10px; }
+    .mock-progress-fill { height: 100%; border-radius: 3px; }
+    .mock-row { display: flex; align-items: center; justify-content: space-between; gap: 8px; }
+    .mock-dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
+    .mock-label { color: rgba(255,255,255,.6); font-size: .78rem; }
+    .mock-count { color: #fff; font-size: .78rem; font-weight: 700; }
+    .pulse-dot { width: 10px; height: 10px; border-radius: 50%; background: var(--accent-2); position: relative; display: inline-block; }
+    .pulse-dot::after { content: ''; position: absolute; inset: -3px; border-radius: 50%; background: var(--accent-2); opacity: .4; animation: pulse-ring 1.5s ease-out infinite; }
+
+    /* ── Features Section ── */
+    .features-section { padding: 96px 0; background: var(--gray-50); }
+    .features-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; margin-top: 56px; }
+    .feature-card {
+      background: #fff;
+      border-radius: var(--radius-xl);
+      padding: 32px 28px;
+      border: 1px solid var(--gray-200);
+      box-shadow: var(--shadow-sm);
+      transition: var(--transition);
+      position: relative;
+      overflow: hidden;
+    }
+    .feature-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 3px;
+      background: linear-gradient(90deg, var(--blue-600), var(--blue-400));
+      transform: scaleX(0);
+      transition: var(--transition);
+    }
+    .feature-card:hover { box-shadow: var(--shadow-lg); transform: translateY(-4px); }
+    .feature-card:hover::before { transform: scaleX(1); }
+    .feature-icon {
+      width: 56px; height: 56px;
+      background: var(--blue-50);
+      border-radius: var(--radius);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.4rem;
+      color: var(--blue-600);
+      margin-bottom: 20px;
+      transition: var(--transition);
+    }
+    .feature-card:hover .feature-icon { background: var(--blue-600); color: #fff; }
+    .feature-card h3 { font-family: 'Syne', sans-serif; font-size: 1.1rem; font-weight: 800; color: var(--gray-900); margin-bottom: 10px; }
+    .feature-card p { font-size: .9rem; color: var(--gray-500); line-height: 1.7; }
+
+    /* ── How it works ── */
+    .how-section { padding: 96px 0; background: #fff; }
+    .steps-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 24px; margin-top: 56px; position: relative; }
+    .steps-grid::before {
+      content: '';
+      position: absolute;
+      top: 36px; left: 10%; right: 10%;
+      height: 2px;
+      background: linear-gradient(90deg, var(--blue-200), var(--blue-400), var(--blue-200));
+    }
+    .step-card { text-align: center; position: relative; z-index: 1; }
+    .step-number {
+      width: 72px; height: 72px;
+      background: linear-gradient(135deg, var(--blue-600), var(--blue-500));
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: 'Syne', sans-serif;
+      font-size: 1.4rem;
+      font-weight: 800;
+      color: #fff;
+      margin: 0 auto 18px;
+      box-shadow: 0 8px 24px rgba(37,99,235,.3);
+      border: 4px solid #fff;
+    }
+    .step-card h3 { font-weight: 700; color: var(--gray-800); margin-bottom: 8px; font-size: .95rem; }
+    .step-card p { font-size: .85rem; color: var(--gray-500); line-height: 1.6; }
+
+    /* ── Categories Section ── */
+    .categories-section { padding: 80px 0; background: var(--blue-900); }
+    .categories-section .section-title { color: #fff; }
+    .categories-section .section-subtitle { color: rgba(255,255,255,.55); }
+    .cats-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; margin-top: 48px; }
+    .cat-card {
+      background: rgba(255,255,255,.06);
+      border: 1px solid rgba(255,255,255,.1);
+      border-radius: var(--radius-lg);
+      padding: 24px;
+      text-align: center;
+      transition: var(--transition);
+      cursor: pointer;
+    }
+    .cat-card:hover { background: rgba(37,99,235,.2); border-color: rgba(59,130,246,.4); transform: translateY(-3px); }
+    .cat-card i { font-size: 1.8rem; color: var(--blue-300); margin-bottom: 12px; display: block; }
+    .cat-card span { color: rgba(255,255,255,.8); font-size: .875rem; font-weight: 600; }
+
+    /* ── CTA Section ── */
+    .cta-section { padding: 96px 0; background: var(--gray-50); }
+    .cta-box {
+      background: linear-gradient(135deg, var(--blue-700) 0%, var(--blue-600) 100%);
+      border-radius: var(--radius-xl);
+      padding: 72px 56px;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+      box-shadow: var(--shadow-xl);
+    }
+    .cta-box::before { content: ''; position: absolute; width: 400px; height: 400px; background: radial-gradient(circle, rgba(255,255,255,.08) 0%, transparent 70%); top: -100px; right: -100px; border-radius: 50%; }
+    .cta-box h2 { font-family: 'Syne', sans-serif; font-size: clamp(1.8rem, 4vw, 2.6rem); font-weight: 800; color: #fff; margin-bottom: 16px; }
+    .cta-box p { color: rgba(255,255,255,.7); font-size: 1.05rem; margin-bottom: 36px; max-width: 520px; margin-left: auto; margin-right: auto; }
+    .cta-actions { display: flex; justify-content: center; gap: 14px; flex-wrap: wrap; }
+
+    @media (max-width: 1024px) {
+      .features-grid { grid-template-columns: repeat(2, 1fr); }
+      .cats-grid { grid-template-columns: repeat(2, 1fr); }
+      .steps-grid { grid-template-columns: repeat(2, 1fr); }
+      .steps-grid::before { display: none; }
+    }
+    @media (max-width: 768px) {
+      .hero-grid { grid-template-columns: 1fr; text-align: center; }
+      .hero-visual { display: none; }
+      .hero-actions { justify-content: center; }
+      .hero-stats { justify-content: center; }
+      .features-grid { grid-template-columns: 1fr; }
+      .cats-grid { grid-template-columns: repeat(2, 1fr); }
+      .cta-box { padding: 48px 24px; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ── Navbar ── -->
+<nav class="navbar">
+  <div class="container">
+    <div class="nav-inner">
+      <a href="index.html" class="nav-brand">
+        <div class="nav-logo">CC</div>
+        <div class="nav-brand-text">
+          <span class="brand-name">CampusCare</span>
+          <span class="brand-college">I.T.S Engineering College</span>
+        </div>
+      </a>
+      <ul class="nav-links">
+        <li><a href="index.html" class="active">Home</a></li>
+        <li><a href="#features">Features</a></li>
+        <li><a href="#how-it-works">How It Works</a></li>
+        <li><a href="#categories">Categories</a></li>
+        <li><a href="student-dashboard.html">Dashboard</a></li>
+      </ul>
+      <div class="nav-cta">
+        <a href="login.html" class="btn btn-outline">Login</a>
+        <a href="signup.html" class="btn btn-primary"><i class="fa-solid fa-user-plus"></i> Sign Up</a>
+      </div>
+      <button class="nav-hamburger" aria-label="Toggle Menu">
+        <i class="fa-solid fa-bars"></i>
+      </button>
+    </div>
+  </div>
+</nav>
+
+<!-- ── Hero ── -->
+<section class="hero">
+  <div class="container">
+    <div class="hero-grid">
+      <!-- Left -->
+      <div class="animate-fadeInUp">
+        <div class="hero-badge">
+          <i class="fa-solid fa-star"></i>
+          Official Student Portal – I.T.S Engineering College
+        </div>
+        <h1 class="hero-title">
+          Your Campus.<br>
+          Your Voice.<br>
+          <span class="highlight">Resolved Fast.</span>
+        </h1>
+        <p class="hero-subtitle">
+          CampusCare is the official complaint & maintenance tracking system for I.T.S Engineering College. Submit, track, and resolve campus issues — all in one place.
+        </p>
+        <div class="hero-actions">
+          <a href="signup.html" class="btn btn-primary btn-lg">
+            <i class="fa-solid fa-rocket"></i> Get Started Free
+          </a>
+          <a href="login.html" class="btn btn-outline btn-lg">
+            <i class="fa-solid fa-right-to-bracket"></i> Login
+          </a>
+        </div>
+        <div class="hero-stats">
+          <div class="hero-stat-item">
+            <div class="value">5000+</div>
+            <div class="label">Complaints Resolved</div>
+          </div>
+          <div class="hero-stat-sep"></div>
+          <div class="hero-stat-item">
+            <div class="value">48h</div>
+            <div class="label">Avg. Response Time</div>
+          </div>
+          <div class="hero-stat-sep"></div>
+          <div class="hero-stat-item">
+            <div class="value">98%</div>
+            <div class="label">Student Satisfaction</div>
+          </div>
+        </div>
+      </div>
+      <!-- Right – Mock UI -->
+      <div class="hero-visual animate-fadeInUp animate-delay-2">
+        <div class="mock-card">
+          <div class="mock-card-header">
+            <div class="mock-icon" style="background:rgba(37,99,235,.15);color:var(--blue-300)"><i class="fa-solid fa-chart-pie"></i></div>
+            <div>
+              <div class="mock-card-title">Complaint Overview</div>
+              <div class="mock-card-sub">November 2024 • Active</div>
+            </div>
+            <div style="margin-left:auto"><span class="pulse-dot"></span></div>
+          </div>
+          <div style="display:flex;flex-direction:column;gap:8px;margin-top:4px">
+            <div class="mock-row"><span style="display:flex;align-items:center;gap:6px"><span class="mock-dot" style="background:#f59e0b"></span><span class="mock-label">Pending</span></span><span class="mock-count">4</span></div>
+            <div class="mock-row"><span style="display:flex;align-items:center;gap:6px"><span class="mock-dot" style="background:var(--blue-400)"></span><span class="mock-label">In Progress</span></span><span class="mock-count">3</span></div>
+            <div class="mock-row"><span style="display:flex;align-items:center;gap:6px"><span class="mock-dot" style="background:var(--accent-2)"></span><span class="mock-label">Resolved</span></span><span class="mock-count">2</span></div>
+          </div>
+          <div class="mock-progress-bar"><div class="mock-progress-fill" style="width:80%;background:linear-gradient(90deg,var(--blue-500),var(--accent-2))"></div></div>
+        </div>
+        <div class="mock-card" style="border-left:3px solid var(--accent)">
+          <div class="mock-card-header">
+            <div class="mock-icon" style="background:rgba(245,158,11,.15);color:var(--accent)"><i class="fa-solid fa-wrench"></i></div>
+            <div>
+              <div class="mock-card-title">Broken Projector – Room 304</div>
+              <div class="mock-card-sub">CC-2024-001 • Maintenance</div>
+            </div>
+          </div>
+          <div class="mock-row" style="margin-top:8px">
+            <span class="badge badge-pending"><i class="fa-solid fa-clock"></i>Pending</span>
+            <span style="color:rgba(255,255,255,.4);font-size:.75rem"><i class="fa-solid fa-calendar" style="margin-right:4px"></i>18 Nov 2024</span>
+          </div>
+        </div>
+        <div class="mock-card" style="border-left:3px solid var(--accent-2)">
+          <div class="mock-card-header">
+            <div class="mock-icon" style="background:rgba(16,185,129,.15);color:var(--accent-2)"><i class="fa-solid fa-circle-check"></i></div>
+            <div>
+              <div class="mock-card-title">Canteen Food Quality – Resolved!</div>
+              <div class="mock-card-sub">CC-2024-003 • Canteen</div>
+            </div>
+          </div>
+          <div class="mock-row" style="margin-top:8px">
+            <span class="badge badge-resolved"><i class="fa-solid fa-circle-check"></i>Resolved</span>
+            <span style="color:rgba(255,255,255,.4);font-size:.75rem">2 days turnaround</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── Features ── -->
+<section class="features-section" id="features">
+  <div class="container text-center">
+    <div class="section-tag">Why CampusCare?</div>
+    <h2 class="section-title">Everything You Need to Keep<br>Campus Running Smoothly</h2>
+    <p class="section-subtitle" style="margin-top:14px">From broken equipment to hygiene concerns — track every issue transparently from submission to resolution.</p>
+    <div class="features-grid">
+      <div class="feature-card animate-fadeInUp animate-delay-1">
+        <div class="feature-icon"><i class="fa-solid fa-paper-plane"></i></div>
+        <h3>Easy Complaint Submission</h3>
+        <p>Submit complaints in under 60 seconds with our intuitive form. Attach photos, select category, and set priority — all from your phone or laptop.</p>
+      </div>
+      <div class="feature-card animate-fadeInUp animate-delay-2">
+        <div class="feature-icon"><i class="fa-solid fa-magnifying-glass"></i></div>
+        <h3>Real-Time Status Tracking</h3>
+        <p>No more guessing. Track your complaint's live status — Pending, In Progress, or Resolved — with clear timestamps and updates.</p>
+      </div>
+      <div class="feature-card animate-fadeInUp animate-delay-3">
+        <div class="feature-icon"><i class="fa-solid fa-shield-halved"></i></div>
+        <h3>Admin Control Panel</h3>
+        <p>Admins get a powerful dashboard to view, filter, prioritize, and update complaints. Assign issues to the right department instantly.</p>
+      </div>
+      <div class="feature-card animate-fadeInUp animate-delay-1">
+        <div class="feature-icon"><i class="fa-solid fa-bell"></i></div>
+        <h3>Instant Notifications</h3>
+        <p>Students get notified the moment their complaint status changes. Never be left wondering about the progress of your issue.</p>
+      </div>
+      <div class="feature-card animate-fadeInUp animate-delay-2">
+        <div class="feature-icon"><i class="fa-solid fa-chart-bar"></i></div>
+        <h3>Analytics & Reports</h3>
+        <p>Visual dashboards show complaint trends, resolution rates, and category breakdowns — helping management make data-driven decisions.</p>
+      </div>
+      <div class="feature-card animate-fadeInUp animate-delay-3">
+        <div class="feature-icon"><i class="fa-solid fa-mobile-screen"></i></div>
+        <h3>Mobile Friendly</h3>
+        <p>Fully responsive design works perfectly on any device. Submit and track complaints right from your smartphone, anytime, anywhere.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── How It Works ── -->
+<section class="how-section" id="how-it-works">
+  <div class="container text-center">
+    <div class="section-tag">Simple Process</div>
+    <h2 class="section-title">How CampusCare Works</h2>
+    <p class="section-subtitle" style="margin-top:14px">Four simple steps to get your campus issue noticed and resolved.</p>
+    <div class="steps-grid">
+      <div class="step-card animate-fadeInUp animate-delay-1">
+        <div class="step-number">1</div>
+        <h3>Register & Login</h3>
+        <p>Create your account with your college email and roll number. Takes less than 2 minutes.</p>
+      </div>
+      <div class="step-card animate-fadeInUp animate-delay-2">
+        <div class="step-number">2</div>
+        <h3>Submit Complaint</h3>
+        <p>Describe the issue, select category & location, and set priority level. Add a photo if needed.</p>
+      </div>
+      <div class="step-card animate-fadeInUp animate-delay-3">
+        <div class="step-number">3</div>
+        <h3>Admin Reviews</h3>
+        <p>Our admin team reviews the complaint, assigns it to the concerned department, and updates the status.</p>
+      </div>
+      <div class="step-card animate-fadeInUp animate-delay-4">
+        <div class="step-number">4</div>
+        <h3>Issue Resolved</h3>
+        <p>You get notified once resolved. You can rate the resolution and submit feedback for quality improvement.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── Categories ── -->
+<section class="categories-section" id="categories">
+  <div class="container text-center">
+    <div class="section-tag" style="background:rgba(59,130,246,.15);border-color:rgba(59,130,246,.3);color:var(--blue-300)">Complaint Categories</div>
+    <h2 class="section-title">Every Campus Issue Covered</h2>
+    <p class="section-subtitle" style="margin-top:14px">Report any type of campus problem across these categories.</p>
+    <div class="cats-grid">
+      <div class="cat-card"><i class="fa-solid fa-wrench"></i><span>Maintenance</span></div>
+      <div class="cat-card"><i class="fa-solid fa-wifi"></i><span>IT & Network</span></div>
+      <div class="cat-card"><i class="fa-solid fa-building"></i><span>Infrastructure</span></div>
+      <div class="cat-card"><i class="fa-solid fa-utensils"></i><span>Canteen</span></div>
+      <div class="cat-card"><i class="fa-solid fa-droplet"></i><span>Sanitation</span></div>
+      <div class="cat-card"><i class="fa-solid fa-bolt"></i><span>Electrical</span></div>
+      <div class="cat-card"><i class="fa-solid fa-broom"></i><span>Hygiene</span></div>
+      <div class="cat-card"><i class="fa-solid fa-shield-halved"></i><span>Security</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- ── CTA ── -->
+<section class="cta-section">
+  <div class="container">
+    <div class="cta-box">
+      <div style="position:relative;z-index:1">
+        <div class="section-tag" style="background:rgba(255,255,255,.1);border-color:rgba(255,255,255,.2);color:rgba(255,255,255,.8)">Get Started Today</div>
+        <h2>Make Your Campus Voice Heard</h2>
+        <p>Join Thousands of I.T.S Engineering College students already using CampusCare to improve campus life. Your complaint matters.</p>
+        <div class="cta-actions">
+          <a href="signup.html" class="btn btn-lg" style="background:#fff;color:var(--blue-700);font-weight:700;box-shadow:0 4px 20px rgba(0,0,0,.2)">
+            <i class="fa-solid fa-user-plus"></i> Create Free Account
+          </a>
+          <a href="login.html" class="btn btn-outline btn-lg">
+            <i class="fa-solid fa-right-to-bracket"></i> Already have an account?
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── Footer ── -->
+<footer class="footer">
+  <div class="container">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <div class="nav-logo" style="margin-bottom:10px">CC</div>
+        <div class="brand-name">CampusCare</div>
+        <div class="brand-college">I.T.S Engineering College, Greater Noida</div>
+        <p>The official student complaint & maintenance tracking portal. Your campus, improved — one resolution at a time.</p>
+      </div>
+      <div class="footer-col">
+        <h4>Quick Links</h4>
+        <ul>
+          <li><a href="index.html">Home</a></li>
+          <li><a href="login.html">Login</a></li>
+          <li><a href="signup.html">Sign Up</a></li>
+          <li><a href="student-dashboard.html">Student Dashboard</a></li>
+          <li><a href="admin-dashboard.html">Admin Panel</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Support</h4>
+        <ul>
+          <li><a href="#">Help Center</a></li>
+          <li><a href="#">Contact Admin</a></li>
+          <li><a href="#">Privacy Policy</a></li>
+          <li><a href="#">Terms of Use</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>© 2026 CampusCare – I.T.S Engineering College, Greater Noida. All rights reserved.</p>
+      <p>Built with <span class="heart">♥</span> for ITS Students</p>
+    </div>
+  </div>
+</footer>
+
+<script src="script.js"></script>
+</body>
+</html>
+
